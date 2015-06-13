@@ -12,7 +12,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       output: "",
-      code: 'IO.puts "hello"'
+      code: 'IO.puts "hello"',
+      extraKeys: {
+        "Cmd-Enter": function(editor) {
+          this.handleRunClick()
+        }.bind(this)
+      }
     };
   }
 
@@ -22,6 +27,7 @@ class App extends React.Component {
         <Nav onRun={this.handleRunClick.bind(this)}
           onShare={this.handleShareClick.bind(this)} />
         <CodeEditor code={this.state.code}
+          extraKeys={this.state.extraKeys}
           onChange={this.handleCodeEditorChange.bind(this)} />
         <Console output={this.state.output} />
       </div>

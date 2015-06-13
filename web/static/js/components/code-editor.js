@@ -7,6 +7,7 @@ export default class CodeEditor extends React.Component {
       <CodeMirrorEditor
         lineNumbers
         mode='elixir'
+        extraKeys={this.props.extraKeys}
         value={this.props.code}
         onChange={this.props.onChange} />
     );
@@ -15,6 +16,7 @@ export default class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {
   code: React.PropTypes.string,
+  extraKeys: React.PropTypes.object,
   onChange: React.PropTypes.func,
 };
 
