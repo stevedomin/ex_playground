@@ -5,6 +5,7 @@ export default class Console extends React.Component {
   render() {
     return (
       <CodeMirrorEditor
+        className={this.props.className}
         lineNumbers={false}
         mode="plain"
         readOnly={true}
@@ -14,3 +15,7 @@ export default class Console extends React.Component {
   }
 }
 
+Console.propTypes = {
+  className: React.PropTypes.string,
+  value: React.PropTypes.string
+}

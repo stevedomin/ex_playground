@@ -5,6 +5,7 @@ export default class CodeEditor extends React.Component {
   render() {
     return (
       <CodeMirrorEditor
+        className={this.props.className}
         lineNumbers
         mode='elixir'
         extraKeys={this.props.extraKeys}
@@ -15,6 +16,7 @@ export default class CodeEditor extends React.Component {
 }
 
 CodeEditor.propTypes = {
+  className: React.PropTypes.string,
   code: React.PropTypes.string,
   extraKeys: React.PropTypes.object,
   onChange: React.PropTypes.func,

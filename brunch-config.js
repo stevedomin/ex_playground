@@ -20,7 +20,8 @@ exports.config = {
   },
 
   conventions: {
-    vendor: /^web\/static\/vendor/
+    vendor: /^web\/static\/vendor/,
+    assets: /^web\/static\/assets/
   },
 
   paths: {

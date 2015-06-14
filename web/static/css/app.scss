@@ -1,1 +1,61 @@
+html {
+  height: 100%;
+}
 
+body {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+.navbar-nav > li{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.navbar__elixir-drop {
+  height: 30px;
+  float: left;
+  margin-top: 9px;
+  margin-right: 5px;
+}
+
+.workspace {
+  height: 100%;
+  bottom: 0;
+  min-width:100%;
+  width:100%;
+  position: absolute;
+}
+
+.code-editor-pane {
+  padding-top: 50px;
+  height: 70%;
+}
+
+.code-editor-pane > .CodeMirror {
+  background-color: #FFF8ED;
+}
+
+.console-pane {
+  height: 30%;
+}
+
+.CodeMirror {
+  height: 100%;
+}
+
+.CodeMirror-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+}

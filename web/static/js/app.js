@@ -23,13 +23,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="app">
         <Nav onRun={this.handleRunClick.bind(this)}
           onShare={this.handleShareClick.bind(this)} />
-        <CodeEditor code={this.state.code}
-          extraKeys={this.state.extraKeys}
-          onChange={this.handleCodeEditorChange.bind(this)} />
-        <Console output={this.state.output} />
+        <div className="container-fluid workspace">
+          <CodeEditor className="row code-editor-pane"
+            code={this.state.code}
+            extraKeys={this.state.extraKeys}
+            onChange={this.handleCodeEditorChange.bind(this)} />
+          <Console className="row console-pane"
+            output={this.state.output} />
+        </div>
       </div>
     );
   }
