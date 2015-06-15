@@ -1,4 +1,4 @@
-FROM stevedomin/elixir:1.0.3
+FROM stevedomin/elixir:1.0.4
 MAINTAINER Steve Domin <steve@stevedomin.com>
 
 RUN apt-get update && apt-get install -y python
