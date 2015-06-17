@@ -1,5 +1,5 @@
 defmodule ExPlayground.CodeRunner do
-  use GenEvent
+  use GenServer
 
   @docker_args [
     "run",
