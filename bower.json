@@ -6,6 +6,12 @@
     "bootstrap": "~3.3.4"
   },
   "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
     "react": {
       "main": "react-with-addons.js"
     },
