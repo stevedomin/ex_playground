@@ -30,7 +30,7 @@ defmodule ExPlayground.CodeRunner do
     opts = [
       in: code,
       out: {:send, pid},
-      err: :out,
+      err: {:send, pid},
     ]
     Porcelain.spawn("/usr/local/bin/docker", @docker_args, opts)
     {:noreply, []}
