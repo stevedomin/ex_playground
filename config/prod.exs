@@ -1,10 +1,11 @@
 use Mix.Config
 
 config :ex_playground, ExPlayground.Endpoint,
-  url: [host: "example.com"],
+  url: [host: System.get_env("APP_HOST")],
   http: [port: System.get_env("PORT")],
   cache_static_manifest: "priv/static/manifest.json",
-  secret_key_base: "cAlMV+7yob3AUAxVzk4bHfT30QPggDJbFjdR4mJTWAjv2zCzCrkGFelMBJzizpQO"
+  secret_key_base: "cAlMV+7yob3AUAxVzk4bHfT30QPggDJbFjdR4mJTWAjv2zCzCrkGFelMBJzizpQO",
+  server: true
   
 # ## SSL Support
 #
