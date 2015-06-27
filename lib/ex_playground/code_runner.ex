@@ -5,7 +5,7 @@ defmodule ExPlayground.CodeRunner do
     "run",
     "-i",
     "--rm",
-    "-c", "1",
+    "-c", "2",
     "-m", "10m",
     "--memory-swap=-1",
     "--net=none",
