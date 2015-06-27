@@ -25,7 +25,7 @@ defmodule ExPlayground.CodeController do
     send_chunk(conn, {"close", "CLOSE"})
   end
 
-  def handle_output(conn) do
+  defp handle_output(conn) do
     receive do
       {_pid, :data, :out, data} ->
         prepared_data = data
@@ -48,7 +48,7 @@ defmodule ExPlayground.CodeController do
     end
   end
 
-  def send_chunk(conn, {event, message}) do
+  defp send_chunk(conn, {event, message}) do
     Logger.info("Send chunk: #{event} #{message}")
     {:ok, conn} = conn |> chunk("event: #{event}\n")
     {:ok, conn} = conn |> chunk("data: #{message}\n\n")
