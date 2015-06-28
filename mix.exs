@@ -17,7 +17,7 @@ defmodule ExPlayground.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {ExPlayground, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :porcelain]]
+     applications: [:mix, :phoenix, :phoenix_html, :cowboy, :logger, :porcelain]]
   end
 
   # Specifies your project dependencies
@@ -26,7 +26,7 @@ defmodule ExPlayground.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 0.13.1"},
-      {:phoenix_live_reload, "~> 0.4.0", only: "dev"},
+      {:phoenix_live_reload, "~> 0.4.0"},
       {:phoenix_html, "~> 1.0"},
       {:cowboy, "~> 1.0"},
       {:porcelain, "~> 2.0"},

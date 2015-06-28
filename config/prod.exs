@@ -6,7 +6,10 @@ config :ex_playground, ExPlayground.Endpoint,
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: "cAlMV+7yob3AUAxVzk4bHfT30QPggDJbFjdR4mJTWAjv2zCzCrkGFelMBJzizpQO",
   server: true
-  
+
+config :ex_playground,
+  ga_tracking_id: System.get_env("GA_TRACKING_ID")
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

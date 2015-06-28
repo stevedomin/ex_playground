@@ -16,6 +16,10 @@
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <script>require("web/static/js/app")</script>
+
+    <%= if Mix.env == :prod do %>
+      <%= render "_google_analytics.html" %>
+    <% end %>
   </body>
 </html>
 
