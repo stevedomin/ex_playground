@@ -3,8 +3,6 @@ defmodule ExPlayground.CodeController do
 
   require Logger
 
-  plug :action
-
   def run(conn, %{"code" => code}) do
     id = ExPlayground.HexUtils.bin_to_hex(:crypto.hash(:sha, code))
     ExPlayground.CodeServer.put(id, code)
