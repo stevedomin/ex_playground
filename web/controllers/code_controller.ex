@@ -15,15 +15,16 @@ defmodule ExPlayground.CodeController do
       |> put_resp_content_type("text/event-stream")
       |> send_chunked(200)
 
+    timeout = Application.get_env(:ex_playground, :code_runner)[:timeout]
     code = ExPlayground.CodeServer.get(id)
-    ExPlayground.CodeRunner.run(self(), code)
-    handle_output(conn)
+    ExPlayground.CodeRunner.run(self(), code, timeout)
+    handle_output(conn, timeout)
 
     # Send signal to close connection
     send_chunk(conn, {"close", "CLOSE"})
   end
 
-  defp handle_output(conn) do
+  defp handle_output(conn, timeout) do
     receive do
       {_pid, :data, :out, data} ->
         prepared_data = data
@@ -33,16 +34,20 @@ defmodule ExPlayground.CodeController do
         Enum.each(prepared_data, fn(line) ->
           send_chunk(conn, {"output", line})
         end)
-        handle_output(conn)
+        handle_output(conn, timeout)
       {_pid, :data, :err, data} ->
-        Logger.info "Error: #{data}"
-        handle_output(conn)
+        Logger.info("Error: #{data}")
+        handle_output(conn, timeout)
+      {_pid, :timeout} ->
+        Logger.info("Timing out after 10 seconds.")
+        send_chunk(conn, {"output", "Timing out after 10 seconds."})
+        handle_output(conn, timeout)
       {_pid, :result, %Porcelain.Result{status: status}} ->
         Logger.debug("Status: #{status}")
         send_chunk(conn, {"output", "Program exited."})
     after
-      10_000 ->
-        send_chunk(conn, {"timeout", "Timing out after 10 seconds"})
+       timeout ->
+        send_chunk(conn, {"timeout", "No output received after 10 seconds"})
     end
   end
 
