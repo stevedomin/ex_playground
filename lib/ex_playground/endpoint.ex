@@ -12,6 +12,7 @@ defmodule ExPlayground.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
@@ -30,8 +31,7 @@ defmodule ExPlayground.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_ex_playground_key",
-    signing_salt: "ZofTHwd4",
-    encryption_salt: "pUlSUEkb"
+    signing_salt: "ZofTHwd4"
 
-  plug :router, ExPlayground.Router
+  plug ExPlayground.Router
 end
