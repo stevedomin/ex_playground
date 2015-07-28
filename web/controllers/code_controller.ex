@@ -39,15 +39,15 @@ defmodule ExPlayground.CodeController do
         Logger.info("Error: #{data}")
         handle_output(conn, timeout)
       {_pid, :timeout} ->
-        Logger.info("Timing out after 10 seconds.")
-        send_chunk(conn, {"output", "Timing out after 10 seconds."})
+        Logger.info("Timing out after #{timeout} ms.")
+        send_chunk(conn, {"output", "Timing out after #{timeout} ms."})
         handle_output(conn, timeout)
       {_pid, :result, %Porcelain.Result{status: status}} ->
         Logger.debug("Status: #{status}")
         send_chunk(conn, {"output", "Program exited."})
     after
        timeout ->
-        send_chunk(conn, {"timeout", "No output received after 10 seconds"})
+        send_chunk(conn, {"timeout", "No output received after #{timeout} ms."})
     end
   end
 

@@ -21,7 +21,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :ex_playground, :code_runner,
-  timeout: 5_000
+  timeout: 10_000
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
