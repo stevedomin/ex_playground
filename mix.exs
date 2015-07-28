@@ -30,7 +30,7 @@ defmodule ExPlayground.Mixfile do
       {:phoenix_html, "~> 1.4"},
       {:cowboy, "~> 1.0"},
       {:porcelain, "~> 2.0"},
-      {:exrm, "~> 0.15.3"},
+      {:exrm, "~> 0.18.5"},
     ]
   end
 end
