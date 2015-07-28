@@ -4,7 +4,7 @@ config :ex_playground, ExPlayground.Endpoint,
   url: [host: System.get_env("APP_HOST")],
   http: [port: {:system, "PORT"}],
   cache_static_manifest: "priv/static/manifest.json",
-  secret_key_base: System.get_env("SECRET_KEY_BASE")},
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   server: true
 
 config :ex_playground,
