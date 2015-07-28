@@ -2,9 +2,9 @@ use Mix.Config
 
 config :ex_playground, ExPlayground.Endpoint,
   url: [host: System.get_env("APP_HOST")],
-  http: [port: System.get_env("PORT")],
+  http: [port: {:system, "PORT"}],
   cache_static_manifest: "priv/static/manifest.json",
-  secret_key_base: "cAlMV+7yob3AUAxVzk4bHfT30QPggDJbFjdR4mJTWAjv2zCzCrkGFelMBJzizpQO",
+  secret_key_base: System.get_env("SECRET_KEY_BASE")},
   server: true
 
 config :ex_playground,
@@ -23,7 +23,6 @@ config :ex_playground,
 #
 # Where those two env variables point to a file on
 # disk for the key and cert.
-  
 
 # Do not pring debug messages in production
 config :logger, level: :info
