@@ -12,6 +12,7 @@ defmodule ExPlayground.CodeController do
   def stream(conn, %{"id" => id}) do
     conn =
       conn
+      |> put_resp_header("x-accel-buffering", "no")
       |> put_resp_content_type("text/event-stream")
       |> send_chunked(200)
 
