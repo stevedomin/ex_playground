@@ -1,21 +1,16 @@
 defmodule ExPlayground.CodeServerTest do
   use ExUnit.Case, async: true
 
-  setup do
-    {:ok, bucket} = ExPlayground.CodeServer.start_link
-    {:ok, bucket: bucket}
+  test "stores code snippet by key" do
+    assert ExPlayground.CodeServer.get("aaa") == nil
+
+    ExPlayground.CodeServer.put("abc", "IO.puts")
+    assert ExPlayground.CodeServer.get("abc") == "IO.puts"
   end
 
-  test "stores code snippet by key", %{bucket: bucket} do
-    assert ExPlayground.CodeServer.get(bucket, "aaa") == nil
-
-    ExPlayground.CodeServer.put(bucket, "abc", "IO.puts")
-    assert ExPlayground.CodeServer.get(bucket, "abc") == "IO.puts"
-  end
-  
-  test "delete code snippet at key", %{bucket: bucket} do
-    ExPlayground.CodeServer.put(bucket, "abc", "IO.puts")
-    assert ExPlayground.CodeServer.delete(bucket, "abc") == "IO.puts"
-    assert ExPlayground.CodeServer.get(bucket, "abc") == nil
+  test "delete code snippet at key" do
+    ExPlayground.CodeServer.put("abc", "IO.puts")
+    assert ExPlayground.CodeServer.delete("abc") == "IO.puts"
+    assert ExPlayground.CodeServer.get("abc") == nil
   end
 end
