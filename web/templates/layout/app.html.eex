@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" type="image/x-icon" href="<%= static_path(@conn, "/images/favicon.ico") %>" />
 
     <title>Elixir Playground</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
