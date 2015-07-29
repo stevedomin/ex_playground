@@ -5,7 +5,7 @@ defmodule ExPlayground.Mixfile do
     [app: :ex_playground,
      version: "0.0.1",
      elixir: "~> 1.0",
-     elixirc_paths: ["lib", "web"],
+     elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -17,8 +17,13 @@ defmodule ExPlayground.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {ExPlayground, []},
-     applications: [:mix, :phoenix, :phoenix_html, :cowboy, :logger, :porcelain]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, 
+                    :porcelain, :phoenix_ecto, :postgrex]]
   end
+
+  # Specifies which paths to compile per environment
+  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
+  defp elixirc_paths(_),     do: ["lib", "web"]
 
   # Specifies your project dependencies
   #
@@ -26,8 +31,10 @@ defmodule ExPlayground.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 0.15.0"},
+      {:phoenix_ecto, "~> 0.8"},
       {:phoenix_live_reload, "~> 0.5.0", only: :dev},
       {:phoenix_html, "~> 1.4"},
+      {:postgrex, ">= 0.0.0"},
       {:cowboy, "~> 1.0"},
       {:porcelain, "~> 2.0"},
       {:exrm, "~> 0.18.5"},

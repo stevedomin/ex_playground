@@ -20,12 +20,20 @@ defmodule ExPlayground.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
+      alias ExPlayground.Repo
+      import Ecto.Model
+      import Ecto.Query, only: [from: 2]
+
       # The default endpoint for testing
       @endpoint ExPlayground.Endpoint
     end
   end
 
   setup tags do
+    unless tags[:async] do
+      Ecto.Adapters.SQL.restart_test_transaction(Test.Repo, [])
+    end
+
     :ok
   end
 end

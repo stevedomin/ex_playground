@@ -20,7 +20,10 @@ defmodule ExPlayground.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      # Import URL helpers from the router
+      alias ExPlayground.Repo
+      import Ecto.Model
+      import Ecto.Query, only: [from: 2]
+
       import ExPlayground.Router.Helpers
 
       # The default endpoint for testing
@@ -29,6 +32,10 @@ defmodule ExPlayground.ConnCase do
   end
 
   setup tags do
+    unless tags[:async] do
+      Ecto.Adapters.SQL.restart_test_transaction(Test.Repo, [])
+    end
+
     :ok
   end
 end

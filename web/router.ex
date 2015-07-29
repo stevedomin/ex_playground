@@ -1,5 +1,5 @@
 defmodule ExPlayground.Router do
-  use Phoenix.Router
+  use ExPlayground.Web, :router
 
   pipeline :browser do
     plug :accepts, ~w(html)

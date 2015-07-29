@@ -9,6 +9,8 @@ defmodule ExPlayground do
     children = [
       # Start the endpoint when the application starts
       supervisor(ExPlayground.Endpoint, []),
+      # Start the Ecto repository
+      worker(ExPlayground.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(ExPlayground.Worker, [arg1, arg2, arg3]),
       worker(ExPlayground.CodeServer, []),

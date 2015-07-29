@@ -9,6 +9,12 @@ defmodule ExPlayground.CodeController do
     conn |> text(id)
   end
 
+  def share(conn, %{"code" => code}) do
+    id = ExPlayground.HexUtils.bin_to_hex(:crypto.hash(:sha, code))
+
+    conn |> text(id)
+  end
+
   def stream(conn, %{"id" => id}) do
     conn =
       conn
