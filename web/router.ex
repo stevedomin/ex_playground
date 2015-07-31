@@ -16,6 +16,7 @@ defmodule ExPlayground.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/s/:id", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -23,6 +24,7 @@ defmodule ExPlayground.Router do
     pipe_through :api
 
     post "/run", CodeController, :run
+    post "/share", CodeController, :share
     get "/stream/:id", CodeController, :stream
   end
 end

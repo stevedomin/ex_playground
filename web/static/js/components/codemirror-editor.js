@@ -23,7 +23,7 @@ export default class CodeMirrorEditor extends React.Component {
     if (this.props.forceTextArea || IS_MOBILE) {
       return; // Return early if textarea
     }
-    this.editor = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), this.props);
+    this.editor = CodeMirror.fromTextArea(React.findDOMNode(this.refs.editor), this.props);
     this.editor.on('change', this.handleChange.bind(this));
   }
 
@@ -68,7 +68,7 @@ export default class CodeMirrorEditor extends React.Component {
 };
 
 CodeMirrorEditor.propTypes = {
-  className: React.PropTypes.string ,
+  className: React.PropTypes.string,
   style: React.PropTypes.object,
   onChange: React.PropTypes.func,
   value: React.PropTypes.string,

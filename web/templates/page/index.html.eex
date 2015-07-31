@@ -1,1 +1,5 @@
-<div id="app" class="app"></div>
+<div id="app" class="app">
+  <textarea id="editor" style="display: none;">
+    <%= @snippet.content %>
+  </textarea>
+</div>

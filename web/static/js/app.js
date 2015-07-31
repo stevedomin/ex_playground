@@ -5,14 +5,12 @@ import CodeEditor from './components/code-editor'
 import Console from './components/console'
 import Nav from './components/nav'
 
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       output: "",
-      code: 'IO.puts "hello"',
+      code: $("#editor").val().trim(), // ugly, need to find something better
       extraKeys: {
         "Cmd-Enter": function(editor) {
           this.handleRunClick()
@@ -25,7 +23,8 @@ class App extends React.Component {
     return (
       <div className="app">
         <Nav onRun={this.handleRunClick.bind(this)}
-          onShare={this.handleShareClick.bind(this)} />
+          onShare={this.handleShareClick.bind(this)}
+          shareURL={this.state.shareURL} />
         <div className="container-fluid workspace">
           <CodeEditor className="row code-editor-pane"
             code={this.state.code}
@@ -39,7 +38,10 @@ class App extends React.Component {
   }
 
   handleCodeEditorChange(e) {
-    this.setState({code: e.target.value});
+    this.setState({
+      code: e.target.value,
+      shareURL: ""
+    });
   }
 
   handleRunClick() {
@@ -55,8 +57,16 @@ class App extends React.Component {
   }
 
   handleShareClick() {
-    console.log("share");
-    console.log(this);
+    this.shareCode("",
+      function(data) {
+        var path = "/s/" + data
+        var url = window.location.origin + path;
+        this.setState({shareURL: url});
+      },
+      function(xhr, status, err) {
+        console.error(status, err);
+      }
+    );
   }
 
   sendCode(code, successCb, errorCb) {
@@ -66,6 +76,20 @@ class App extends React.Component {
 
     $.ajax({
       url: '/api/run',
+      type: 'POST',
+      data: body,
+      success: successCb.bind(this),
+      error: errorCb.bind(this)
+    });
+  }
+
+  shareCode(code, successCb, errorCb) {
+    var body = {
+      code: this.state.code
+    };
+
+    $.ajax({
+      url: '/api/share',
       type: 'POST',
       data: body,
       success: successCb.bind(this),
