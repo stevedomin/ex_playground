@@ -5,7 +5,11 @@ import CodeEditor from './components/code-editor'
 import Console from './components/console'
 import Nav from './components/nav'
 
-class App extends React.Component {
+var SUPPORTS_HISTORY = window.history &&
+  window.history.replaceState &&
+  window.history.pushState
+
+  class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +21,17 @@ class App extends React.Component {
         }.bind(this)
       }
     };
+  }
+
+  componentDidMount() {
+    if (SUPPORTS_HISTORY) {
+      var path = window.location.pathname;
+      var newState = {
+        code: this.state.code
+      }
+      window.history.replaceState(newState, "", path);
+      window.onpopstate = this.onpopstateHandler.bind(this);
+    }
   }
 
   render() {
@@ -56,19 +71,6 @@ class App extends React.Component {
     );
   }
 
-  handleShareClick() {
-    this.shareCode("",
-      function(data) {
-        var path = "/s/" + data
-        var url = window.location.origin + path;
-        this.setState({shareURL: url});
-      },
-      function(xhr, status, err) {
-        console.error(status, err);
-      }
-    );
-  }
-
   sendCode(code, successCb, errorCb) {
     var body = {
       code: this.state.code
@@ -76,20 +78,6 @@ class App extends React.Component {
 
     $.ajax({
       url: '/api/run',
-      type: 'POST',
-      data: body,
-      success: successCb.bind(this),
-      error: errorCb.bind(this)
-    });
-  }
-
-  shareCode(code, successCb, errorCb) {
-    var body = {
-      code: this.state.code
-    };
-
-    $.ajax({
-      url: '/api/share',
       type: 'POST',
       data: body,
       success: successCb.bind(this),
@@ -125,6 +113,46 @@ class App extends React.Component {
     var output = this.state.output;
     output += data + '\n';
     this.setState({output: output});
+  }
+
+  handleShareClick() {
+    this.shareCode("",
+      function(data) {
+        var path = "/s/" + data
+        var url = window.location.origin + path;
+        this.setState({shareURL: url});
+        if (SUPPORTS_HISTORY) {
+          var state = {
+            code: this.state.code
+          };
+          window.history.pushState(state, "", path);
+        }
+      },
+      function(xhr, status, err) {
+        console.error(status, err);
+      }
+    );
+  }
+
+  shareCode(code, successCb, errorCb) {
+    var body = {
+      code: this.state.code
+    };
+
+    $.ajax({
+      url: '/api/share',
+      type: 'POST',
+      data: body,
+      success: successCb.bind(this),
+      error: errorCb.bind(this)
+    });
+  }
+
+  onpopstateHandler(event) {
+    this.setState({
+      shareURL: "",
+      code: event.state.code
+    });
   }
 };
 
