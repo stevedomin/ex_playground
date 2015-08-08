@@ -9,7 +9,7 @@ var SUPPORTS_HISTORY = window.history &&
   window.history.replaceState &&
   window.history.pushState
 
-  class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +39,11 @@ var SUPPORTS_HISTORY = window.history &&
       <div className="app">
         <Nav onRun={this.handleRunClick.bind(this)}
           onShare={this.handleShareClick.bind(this)}
-          shareURL={this.state.shareURL} />
+          onEmbed={this.handleEmbedClick.bind(this)}
+          shareURL={this.state.shareURL}
+          embedCode={this.state.embedCode}
+          showSharer={this.state.showSharer}
+          showEmbedCode={this.state.showEmbedCode} />
         <div className="container-fluid workspace">
           <CodeEditor className="row code-editor-pane"
             code={this.state.code}
@@ -55,12 +59,16 @@ var SUPPORTS_HISTORY = window.history &&
   handleCodeEditorChange(e) {
     this.setState({
       code: e.target.value,
-      shareURL: ""
+      shareURL: "",
+      embedCode: "",
+      showSharer: false,
+      showEmbedCode: false
     });
   }
 
   handleRunClick() {
-    this.sendCode("",
+    this.sendCode(
+      this.state.code,
       function(data) {
         this.setState({output: ""});
         this.streamOutput(data);
@@ -72,10 +80,7 @@ var SUPPORTS_HISTORY = window.history &&
   }
 
   sendCode(code, successCb, errorCb) {
-    var body = {
-      code: this.state.code
-    };
-
+    var body = {code: code};
     $.ajax({
       url: '/api/run',
       type: 'POST',
@@ -116,41 +121,55 @@ var SUPPORTS_HISTORY = window.history &&
   }
 
   handleShareClick() {
-    this.shareCode("",
-      function(data) {
-        var path = "/s/" + data
-        var url = window.location.origin + path;
-        this.setState({shareURL: url});
-        if (SUPPORTS_HISTORY) {
-          var state = {
-            code: this.state.code
-          };
-          window.history.pushState(state, "", path);
-        }
-      },
-      function(xhr, status, err) {
-        console.error(status, err);
-      }
-    );
+    this.setState({showEmbedCode: false});
+    this.shareCode();
   }
 
-  shareCode(code, successCb, errorCb) {
-    var body = {
-      code: this.state.code
-    };
+  handleEmbedClick() {
+    this.setState({showEmbedCode: true});
+    this.shareCode();
+  }
 
+  shareCode() {
+    var body = {code: this.state.code};
     $.ajax({
       url: '/api/share',
       type: 'POST',
       data: body,
-      success: successCb.bind(this),
-      error: errorCb.bind(this)
+      success: this.shareCodeSuccessHandler.bind(this),
+      error: this.shareCodeErrorHandler.bind(this)
     });
+  }
+
+  shareCodeSuccessHandler(data) {
+    var path = "/s/" + data
+    var url = window.location.origin + path;
+    var embedCode = "<iframe src=\""+ url +"\" frameborder=\"0\" style=\"width: 100%; height: 100%\"></iframe>";
+    this.setState({
+      showSharer: true,
+      shareURL: url,
+      embedCode: embedCode
+    });
+    if (SUPPORTS_HISTORY) {
+      var state = {code: this.state.code};
+      window.history.pushState(state, "", path);
+    }
+  }
+
+  shareCodeErrorHandler(xhr, status, err) {
+    this.setState({
+      showSharer: false,
+      showEmbedCode: true
+    });
+    console.error(status, err);
   }
 
   onpopstateHandler(event) {
     this.setState({
       shareURL: "",
+      embedCode: "",
+      showSharer: false,
+      showEmbedCode: false,
       code: event.state.code
     });
   }
