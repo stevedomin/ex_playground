@@ -9,7 +9,7 @@ export default class Nav extends React.Component {
         <div className="container-fluid">
           <div className="navbar-header">
             <img className="navbar__elixir-drop" src="/images/elixir-drop.png"/>
-            <a className="navbar-brand" href="#">Playground</a>
+            <a className="navbar-brand" href="/">Playground</a>
           </div>
           <ul className="nav navbar-nav">
             <li>
