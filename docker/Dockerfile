@@ -3,6 +3,11 @@ MAINTAINER Steve Domin <steve@stevedomin.com>
 
 RUN apt-get update && apt-get install -y python
 
-COPY run-code.py /
+RUN useradd -ms /bin/bash elixir
+USER elixir
+ENV HOME /home/elixir
+WORKDIR /home/elixir
 
-CMD ["python", "run-code.py"]
+COPY run-code /home/elixir/
+
+CMD ["/home/elixir/run-code"]
