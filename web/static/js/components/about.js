@@ -26,7 +26,7 @@ export default class About extends React.Component {
         <p>We will always keep the playground up to date with the latest stable version of Elixir and Erlang.<br />
         You can run <a href="/s/e2593e1760/">this program</a> to find out the exact versions.</p>
 
-        <p>The sources are available <a href="https://github.com/stevedomin/elixir_playground" target="blank">here</a>.</p>
+        <p>The sources are available <a href="https://github.com/stevedomin/ex_playground" target="blank">here</a>.</p>
 
         <p>Questions? Issues? I'm <a href="https://twitter.com/stevedomin">@stevedomin</a> on Twitter, please get in touch.</p>
       </div>
