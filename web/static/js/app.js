@@ -116,8 +116,15 @@ class App extends React.Component {
     }, false);
 
     source.addEventListener('timeout', function(e) {
-      console.log(e.data);
-      self.writeOutput(e.data);
+      console.warn("Timeout:", e.data);
+      self.writeOutput("\n" + e.data);
+      source.close();
+    }, false);
+
+    source.addEventListener('result', function(e) {
+      console.log("Result:", e.data);
+      self.writeOutput("\n" + e.data);
+      source.close();
     }, false);
 
     source.addEventListener('close', function(e) {
