@@ -1,18 +1,20 @@
 import React from 'bower_components/react/react-with-addons'
 import $ from 'bower_components/jquery/dist/jquery'
 
+import About from './components/about'
 import CodeEditor from './components/code-editor'
 import Console from './components/console'
 import Nav from './components/nav'
 
 var SUPPORTS_HISTORY = window.history &&
   window.history.replaceState &&
-  window.history.pushState
+  window.history.pushState;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showAbout: false,
       output: "",
       code: $("#editor").val().trim(), // ugly, need to find something better
       extraKeys: {
@@ -35,20 +37,31 @@ class App extends React.Component {
   }
 
   render() {
+    var codeEditorClasses = "code-editor-pane";
+    if (this.state.showAbout) {
+      codeEditorClasses += " col-md-6";
+    }
     return (
       <div className="app">
         <Nav onRun={this.handleRunClick.bind(this)}
           onShare={this.handleShareClick.bind(this)}
           onEmbed={this.handleEmbedClick.bind(this)}
+          onAbout={this.handleAboutClick.bind(this)}
           shareURL={this.state.shareURL}
           embedCode={this.state.embedCode}
           showSharer={this.state.showSharer}
           showEmbedCode={this.state.showEmbedCode} />
         <div className="container-fluid workspace">
-          <CodeEditor className="row code-editor-pane"
-            code={this.state.code}
-            extraKeys={this.state.extraKeys}
-            onChange={this.handleCodeEditorChange.bind(this)} />
+          <div className="row workspace__top-row">
+            <CodeEditor className={codeEditorClasses}
+              code={this.state.code}
+              extraKeys={this.state.extraKeys}
+              onChange={this.handleCodeEditorChange.bind(this)} />
+            { this.state.showAbout ?
+              <About className="col-md-6"
+                onClose={this.handleAboutCloseClick.bind(this)} />
+              : null }
+          </div>
           <Console className="row console-pane"
             output={this.state.output} />
         </div>
@@ -181,6 +194,14 @@ class App extends React.Component {
       showEmbedCode: false,
       code: event.state.code
     });
+  }
+
+  handleAboutClick() {
+    this.setState({showAbout: !this.state.showAbout});
+  }
+
+  handleAboutCloseClick() {
+    this.setState({showAbout: false});
   }
 };
 

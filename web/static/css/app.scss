@@ -41,9 +41,15 @@ body {
   position: absolute;
 }
 
-.code-editor-pane {
+.workspace__top-row {
   padding-top: 50px;
   height: 70%;
+}
+
+.code-editor-pane {
+  height: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .code-editor-pane > .CodeMirror {
@@ -52,6 +58,17 @@ body {
 
 .console-pane {
   height: 30%;
+}
+
+.about-pane {
+  height: 100%;
+  overflow: auto;
+}
+
+.about-pane__close {
+  position: absolute;
+  top: 7px;
+  right: 15px;
 }
 
 .CodeMirror {

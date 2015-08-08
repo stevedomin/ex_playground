@@ -2,8 +2,44 @@ import React from 'bower_components/react/react-with-addons'
 
 import Sharer from './sharer'
 
+var IN_IFRAME = window.self !== window.top;
+
 export default class Nav extends React.Component {
   render() {
+    var shareButton,
+      embedButton,
+      sharer,
+      about;
+
+    if (!IN_IFRAME) {
+      shareButton = (
+        <li>
+          <button onClick={this.props.onShare} className="btn btn-default navbar-btn">Share</button>
+        </li>
+      );
+      embedButton = (
+        <li>
+          <button onClick={this.props.onEmbed} className="btn btn-default navbar-btn">Embed</button>
+        </li>
+      );
+
+      if (this.props.showSharer) {
+        sharer = (
+          <Sharer shareURL={this.props.shareURL}
+            embedCode={this.props.embedCode}
+            showEmbedCode={this.props.showEmbedCode}/>
+        );
+      }
+
+      about = (
+        <ul className="nav navbar-nav navbar-right">
+          <li>
+            <button onClick={this.props.onAbout} className="btn btn-default navbar-btn">About</button>
+          </li>
+        </ul>
+      );
+    }
+
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
@@ -15,18 +51,11 @@ export default class Nav extends React.Component {
             <li>
               <button onClick={this.props.onRun} className="btn btn-default navbar-btn">Run</button>
             </li>
-            <li>
-              <button onClick={this.props.onShare} className="btn btn-default navbar-btn">Share</button>
-            </li>
-            <li>
-              <button onClick={this.props.onEmbed} className="btn btn-default navbar-btn">Embed</button>
-            </li>
+            { shareButton }
+            { embedButton }
           </ul>
-          { this.props.showSharer ?
-              <Sharer shareURL={this.props.shareURL}
-                      embedCode={this.props.embedCode}
-                      showEmbedCode={this.props.showEmbedCode}/>
-              : null }
+          { sharer }
+          { about }
         </div>
       </nav>
     );
