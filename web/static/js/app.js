@@ -67,6 +67,9 @@ class App extends React.Component {
   }
 
   handleRunClick() {
+    if (window.sendEvent) {
+      window.sendEvent("button", "click", "run-button");
+    }
     this.sendCode(
       this.state.code,
       function(data) {
@@ -121,11 +124,17 @@ class App extends React.Component {
   }
 
   handleShareClick() {
+    if (window.sendEvent) {
+      window.sendEvent("button", "click", "share-button");
+    }
     this.setState({showEmbedCode: false});
     this.shareCode();
   }
 
   handleEmbedClick() {
+    if (window.sendEvent) {
+      window.sendEvent("button", "click", "embed-button");
+    }
     this.setState({showEmbedCode: true});
     this.shareCode();
   }

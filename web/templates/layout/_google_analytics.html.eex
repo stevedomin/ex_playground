@@ -6,4 +6,7 @@
 
   ga('create', '<%= ga_tracking_id %>', 'auto');
   ga('send', 'pageview');
+  window.sendEvent = function sendEvent(category, action, label) {
+    ga('send', 'event', category, action, label);
+  }
 </script>
