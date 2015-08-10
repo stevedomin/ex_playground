@@ -39,7 +39,7 @@ class App extends React.Component {
   render() {
     var codeEditorClasses = "code-editor-pane";
     if (this.state.showAbout) {
-      codeEditorClasses += " col-md-6";
+      codeEditorClasses += " col-xs-6";
     }
     return (
       <div className="app">
@@ -58,7 +58,7 @@ class App extends React.Component {
               extraKeys={this.state.extraKeys}
               onChange={this.handleCodeEditorChange.bind(this)} />
             { this.state.showAbout ?
-              <About className="col-md-6"
+              <About className="col-xs-6"
                 onClose={this.handleAboutCloseClick.bind(this)} />
               : null }
           </div>

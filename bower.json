@@ -3,15 +3,9 @@
   "dependencies": {
     "react": "~0.13.3",
     "codemirror": "~5.3.0",
-    "bootstrap": "~3.3.4"
+    "jquery": "~2.1.4"
   },
   "overrides": {
-    "bootstrap": {
-      "main": [
-        "dist/css/bootstrap.css",
-        "dist/js/bootstrap.js"
-      ]
-    },
     "react": {
       "main": "react-with-addons.js"
     },
