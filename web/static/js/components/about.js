@@ -28,7 +28,7 @@ export default class About extends React.Component {
 
         <p>The sources are available <a href="https://github.com/stevedomin/ex_playground" target="blank">here</a>.</p>
 
-        <p>Questions? Issues? I'm <a href="https://twitter.com/stevedomin">@stevedomin</a> on Twitter, please get in touch.</p>
+        <p>If you have any questions or issues I'm <a href="https://twitter.com/stevedomin">@stevedomin</a> on Twitter, please get in touch.</p>
       </div>
     );
   }
