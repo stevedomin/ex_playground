@@ -1,8 +1,24 @@
 # ExPlayground
 
-To start your new Phoenix application:
+Run Elixir code in your browser.
 
-1. Install dependencies with `mix deps.get`
-2. Start Phoenix endpoint with `mix phoenix.server`
+## Development
 
-Now you can visit `localhost:4000` from your browser.
+Make sure you have Elixir, PostgreSQL and Docker installed on your computer.
+
+Initial steps:
+
+```console
+$ mix deps.get
+$ npm install
+$ bower install
+$ mix do ecto.create, ecto.migrate
+$ docker pull stevedomin/ex_playground:latest
+```
+
+Running it:
+
+```console
+$ mix phoenix.server
+```
+
