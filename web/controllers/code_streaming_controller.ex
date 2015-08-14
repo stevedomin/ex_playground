@@ -1,27 +1,9 @@
-defmodule ExPlayground.CodeController do
+defmodule ExPlayground.CodeStreamingController do
   use ExPlayground.Web, :controller
-
+  
   require Logger
 
-  def run(conn, %{"code" => code}) do
-    id = id_from_code(code)
-    ExPlayground.CodeServer.put(id, code)
-    conn |> text(id)
-  end
-
-  def share(conn, %{"code" => code}) do
-    id = id_from_code(code)
-    params = %{
-      "id" => id,
-      "content" => code
-    }
-    case ExPlayground.Snippet.find_or_create(params) do
-      {:ok, _} -> conn |> text(id)
-      {:error, _} -> conn |> text("Error while saving snippet")
-    end
-  end
-
-  def create_stream(conn, %{"code" => code}) do
+  def create(conn, %{"code" => code}) do
     id = id_from_code(code)
     ExPlayground.CodeServer.put(id, code)
     conn |> text(id)
@@ -83,4 +65,5 @@ defmodule ExPlayground.CodeController do
     {:ok, conn} = conn |> chunk("data: #{message}\n\n")
     conn
   end
+
 end

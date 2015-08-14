@@ -98,7 +98,7 @@ class App extends React.Component {
   sendCode(code, successCb, errorCb) {
     var body = {code: code};
     $.ajax({
-      url: '/api/run',
+      url: '/api/stream',
       type: 'POST',
       data: body,
       success: successCb.bind(this),

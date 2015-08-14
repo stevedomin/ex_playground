@@ -25,6 +25,7 @@ defmodule ExPlayground.Router do
 
     post "/run", CodeController, :run
     post "/share", CodeController, :share
+    post "/stream", CodeController, :create_stream
     get "/stream/:id", CodeController, :stream
   end
 end
