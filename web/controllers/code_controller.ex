@@ -28,59 +28,65 @@ defmodule ExPlayground.CodeController do
   end
 
   def stream(conn, %{"id" => id}) do
-    conn =
-      conn
-      |> put_resp_header("x-accel-buffering", "no")
-      |> put_resp_content_type("text/event-stream")
-      |> send_chunked(200)
-
-    timeout = Application.get_env(:ex_playground, :code_runner)[:timeout]
     code = ExPlayground.CodeServer.get(id)
-    ExPlayground.CodeRunner.run(self(), code, timeout)
-    handle_output(conn, timeout)
+    timeout = Application.get_env(:ex_playground, :code_runner)[:timeout]
+
+    conn
+    |> put_resp_header("x-accel-buffering", "no")
+    |> put_resp_content_type("text/event-stream")
+    |> send_chunked(200)
+    |> register_and_link_event_manager
+    |> run_code(code, timeout)
+    |> listen
 
     # Send signal to close connection
-    send_chunk(conn, {"close", "CLOSE"})
+    conn
+    |> chunk(format_chunk("close", "CLOSE"))
+  end
+
+  defp register_and_link_event_manager(conn) do
+    {:ok, pid} = GenEvent.start_link()
+
+    conn
+    |> assign(:event_manager_pid, pid)
+  end
+
+  defp run_code(conn, code, timeout) do
+    {:ok, pid} = ExPlayground.CodeRunner.start_link(conn.assigns[:event_manager_pid])
+    ExPlayground.CodeRunner.run(pid, code, timeout)
+    conn
+  end
+
+  defp listen(conn) do
+    GenEvent.stream(conn.assigns[:event_manager_pid])
+    |> Stream.each(&chunk(conn, format(&1)))
+    |> Stream.run
+  end
+
+  defp format({:out, data}) do
+    Logger.debug "#{__MODULE__}.format {:out, #{inspect(data)}}"
+    format_chunk("output", data)
+  end
+  defp format({:result, 0}) do
+    Logger.debug "#{__MODULE__}.format {:result, 0}}"
+    format_chunk("result", "Program exited succesfully.")
+  end
+  defp format({:result, status}) do
+    Logger.debug "#{__MODULE__}.format {:result, #{inspect(status)}}"
+    format_chunk("result", "Program exited with errors.")
+  end
+  defp format({:timeout, timeout}) do
+    Logger.debug "#{__MODULE__}.format {:timeout, #{inspect(timeout)}}"
+    format_chunk("timeout", "Program timed out. Execution time is limited to #{timeout} ms.")
+  end
+
+  defp format_chunk(event, data) do
+    "event: #{event}\n" <> "data: #{data}\n\n"
   end
 
   defp id_from_code(code) do
     :crypto.hash(:sha, code)
     |> Base.encode16(case: :lower)
     |> binary_part(0, 10)
-  end
-
-  defp handle_output(conn, timeout) do
-    receive do
-      {_pid, :data, :out, data} ->
-        prepared_data = data
-          |> String.rstrip(?\n)
-          |> String.split(~r/\n/)
-        Logger.debug("Prepared data: #{prepared_data}")
-        Enum.each(prepared_data, fn(line) ->
-          send_chunk(conn, {"output", line})
-        end)
-        handle_output(conn, timeout)
-      {_pid, :data, :err, data} ->
-        Logger.info("Error: #{data}")
-        handle_output(conn, timeout)
-      {_pid, :timeout} ->
-        Logger.info("Timing out after #{timeout} ms.")
-        send_chunk(conn, {"timeout", "Program timed out after #{timeout} ms."})
-        handle_output(conn, timeout)
-      {_pid, :result, %Porcelain.Result{status: status}} ->
-        Logger.debug("Status: #{status}")
-        statusMessage = if status == 0, do: "successfully", else: "with errors"
-        send_chunk(conn, {"result", "Program exited #{statusMessage}."})
-    after
-       timeout ->
-        send_chunk(conn, {"timeout", "Program timed out after #{timeout} ms. No output received."})
-    end
-  end
-
-  defp send_chunk(conn, {event, message}) do
-    Logger.info("Send chunk: #{event} #{message}")
-    {:ok, conn} = conn |> chunk("event: #{event}\n")
-    {:ok, conn} = conn |> chunk("data: #{message}\n\n")
-    conn
   end
 end
