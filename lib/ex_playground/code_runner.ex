@@ -60,7 +60,9 @@ defmodule ExPlayground.CodeRunner do
   def handle_info({_pid, :result, %Porcelain.Result{status: status}}, state) do
     Logger.debug("#{__MODULE__}.handle_info/2 {:result, #{status}}")
     :erlang.cancel_timer(state[:timeout_timer_ref])
-    GenEvent.notify(state[:event_manager_pid], {:result, status})
+    event_manager_pid = state[:event_manager_pid]
+    GenEvent.notify(event_manager_pid, {:result, status})
+    GenEvent.stop(event_manager_pid)
     {:noreply, state}
   end
   def handle_info({:timeout, process, timeout}, state) do
