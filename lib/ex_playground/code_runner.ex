@@ -13,7 +13,7 @@ defmodule ExPlayground.CodeRunner do
     "--net=none",
     "--cap-drop=all",
     "--privileged=false",
-    "stevedomin/ex_playground"
+    Application.get_env(:ex_playground, :docker)[:image]
   ]
 
   # Client
@@ -38,7 +38,8 @@ defmodule ExPlayground.CodeRunner do
       out: {:send, self()},
       err: {:send, self()},
     ]
-    process = Porcelain.spawn("/usr/local/bin/docker", @docker_args, opts)
+    docker_bin = Application.get_env(:ex_playground, :docker)[:bin]
+    process = Porcelain.spawn(docker_bin, @docker_args, opts)
     timer_ref = :erlang.send_after(timeout, self(), {:timeout, process, timeout})
     new_state = %{state | timeout_timer_ref: timer_ref}
     {:noreply, new_state}

@@ -15,13 +15,17 @@ config :ex_playground, ExPlayground.Endpoint,
   pubsub: [name: ExPlayground.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :ex_playground, :docker,
+  bin: "/usr/bin/docker",
+  image: "stevedomin/ex_playground"
+
+config :ex_playground, :code_runner,
+  timeout: 10_000
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
-
-config :ex_playground, :code_runner,
-  timeout: 10_000
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
