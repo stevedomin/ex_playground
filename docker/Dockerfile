@@ -8,6 +8,4 @@ USER elixir
 ENV HOME /home/elixir
 WORKDIR /home/elixir
 
-COPY run-code /home/elixir/
-
-CMD ["/home/elixir/run-code"]
+ENTRYPOINT ["elixir", "-e"]

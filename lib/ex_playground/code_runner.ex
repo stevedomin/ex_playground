@@ -34,12 +34,13 @@ defmodule ExPlayground.CodeRunner do
 
   def handle_cast({:run, code, timeout}, state) do
     opts = [
-      in: code,
       out: {:send, self()},
       err: {:send, self()},
     ]
     docker_bin = Application.get_env(:ex_playground, :docker)[:bin]
-    process = Porcelain.spawn(docker_bin, @docker_args, opts)
+
+    process = Porcelain.spawn(docker_bin, @docker_args ++ [code], opts)
+
     timer_ref = :erlang.send_after(timeout, self(), {:timeout, process, timeout})
     new_state = %{state | timeout_timer_ref: timer_ref}
     {:noreply, new_state}
