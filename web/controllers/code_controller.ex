@@ -23,6 +23,10 @@ defmodule ExPlayground.CodeController do
     end
   end
 
+  def slack(conn, %{"text" => text}) do
+    run(conn, %{"code" => text})
+  end
+
   defp send_output(conn) do
     output =
       GenEvent.stream(conn.assigns[:event_manager_pid])

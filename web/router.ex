@@ -25,6 +25,7 @@ defmodule ExPlayground.Router do
     pipe_through :api
 
     post "/run", CodeController, :run
+    post "/slack", CodeController, :slack
     post "/share", CodeController, :share
   end
 end
