@@ -162,7 +162,7 @@ class App extends React.Component {
   shareCode() {
     var body = {code: this.state.code};
     $.ajax({
-      url: '/api/share',
+      url: '/share',
       type: 'POST',
       data: body,
       success: this.shareCodeSuccessHandler.bind(this),

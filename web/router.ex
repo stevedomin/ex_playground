@@ -21,12 +21,10 @@ defmodule ExPlayground.Router do
   end
 
   # Other scopes may use custom stacks.
-  scope "/api", ExPlayground do
+  scope "/", ExPlayground do
     pipe_through :api
 
     post "/run", CodeController, :run
     post "/share", CodeController, :share
-    post "/stream", CodeController, :create_stream
-    get "/stream/:id", CodeController, :stream
   end
 end
