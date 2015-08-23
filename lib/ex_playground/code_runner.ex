@@ -51,26 +51,26 @@ defmodule ExPlayground.CodeRunner do
 
   def handle_info({_pid, :data, :out, data}, state) do
     Logger.debug("#{__MODULE__}.handle_info/2 {:data, :out, #{inspect(data)}}")
-    GenEvent.notify(state[:event_manager_pid], {:out, data})
+    GenEvent.notify(state[:event_manager_pid], %{type: :out, data: data})
     {:noreply, state}
   end
   def handle_info({_pid, :data, :err, data}, state) do
     Logger.debug("#{__MODULE__}.handle_info/2 {:data, :err, #{inspect(data)}}")
-    GenEvent.notify(state[:event_manager_pid], {:err, data})
+    GenEvent.notify(state[:event_manager_pid], %{type: :err, data: data})
     {:noreply, state}
   end
   def handle_info({_pid, :result, %Porcelain.Result{status: status}}, state) do
     Logger.debug("#{__MODULE__}.handle_info/2 {:result, #{status}}")
     :erlang.cancel_timer(state[:timeout_timer_ref])
     event_manager_pid = state[:event_manager_pid]
-    GenEvent.notify(event_manager_pid, {:result, status})
+    GenEvent.notify(event_manager_pid, %{type: :result, status: status})
     GenEvent.stop(event_manager_pid)
     {:noreply, state}
   end
   def handle_info({:timeout, process, timeout}, state) do
     Logger.debug("#{__MODULE__}.handle_info/2 {:timeout, #{timeout}}")
     if Porcelain.Process.alive?(process) do
-      GenEvent.notify(state[:event_manager_pid], {:timeout, timeout})
+      GenEvent.notify(state[:event_manager_pid], %{type: :timeout, timeout: timeout})
       Porcelain.Process.stop(process)
     end
     {:noreply, state}

@@ -1,6 +1,8 @@
 defmodule ExPlayground.Endpoint do
   use Phoenix.Endpoint, otp_app: :ex_playground
 
+  socket "/socket", ExPlayground.UserSocket
+
   # Serve at "/" the given assets from "priv/static" directory
   #
   # You should set gzip to true if you are running phoenix.digest

@@ -10,7 +10,7 @@ defmodule ExPlayground.Router do
   end
 
   pipeline :api do
-    #plug :accepts, ~w(json text-event/stream)
+    # plug :accepts, ["json", "text"]
   end
 
   scope "/", ExPlayground do

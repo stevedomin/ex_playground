@@ -1,5 +1,6 @@
 import React from 'bower_components/react/react-with-addons'
 import $ from 'bower_components/jquery/dist/jquery'
+import {Socket} from "deps/phoenix/web/static/js/phoenix"
 
 import About from './components/about'
 import CodeEditor from './components/code-editor'
@@ -9,11 +10,11 @@ import Nav from './components/nav'
 var SUPPORTS_HISTORY = window.history &&
   window.history.replaceState &&
   window.history.pushState;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      channel: null,
       showAbout: false,
       output: "",
       code: $("#editor").val().trim(), // ugly, need to find something better
@@ -34,6 +35,8 @@ class App extends React.Component {
       window.history.replaceState(newState, "", path);
       window.onpopstate = this.onpopstateHandler.bind(this);
     }
+
+    this.connectAndJoin();
   }
 
   render() {
@@ -69,6 +72,17 @@ class App extends React.Component {
     );
   }
 
+  connectAndJoin() {
+    var socket = new Socket("/socket")
+    socket.connect();
+
+    var channel = socket.channel("code:stream", {});
+    channel.on("output", this.handleChannelOutput.bind(this));
+    channel.join().receive("ok", this.handleChannelJoined.bind(this));
+
+    this.setState({channel: channel});
+  }
+
   handleCodeEditorChange(e) {
     this.setState({
       code: e.target.value,
@@ -83,63 +97,37 @@ class App extends React.Component {
     if (window.sendEvent) {
       window.sendEvent("button", "click", "run-button");
     }
-    this.sendCode(
-      this.state.code,
-      function(data) {
-        this.setState({output: ""});
-        this.streamOutput(data);
-      },
-      function(xhr, status, err) {
-        console.error(status, err);
+
+    var channel = this.state.channel;
+    if (channel) {
+      if (channel.state != "joined") {
+        this.connectAndJoin();
       }
-    );
+      channel.push("run", {code: this.state.code})
+      this.setState({output: ""});
+    }
   }
 
-  sendCode(code, successCb, errorCb) {
-    var body = {code: code};
-    $.ajax({
-      url: '/api/stream',
-      type: 'POST',
-      data: body,
-      success: successCb.bind(this),
-      error: errorCb.bind(this)
-    });
+  handleChannelJoined() {
+    console.log("Playground channel ready!");
   }
 
-  streamOutput(id) {
-    var source = new EventSource("/api/stream/"+id);
-    var self = this;
-
-    source.addEventListener('output', function(e) {
-      console.log("Output:", e.data);
-      self.writeOutput(e.data);
-    }, false);
-
-    source.addEventListener('timeout', function(e) {
-      console.warn("Timeout:", e.data);
-      self.writeOutput("\n" + e.data);
-      source.close();
-    }, false);
-
-    source.addEventListener('result', function(e) {
-      console.log("Result:", e.data);
-      self.writeOutput("\n" + e.data);
-      source.close();
-    }, false);
-
-    source.addEventListener('close', function(e) {
-      console.log('Closing stream...');
-      source.close();
-    }, false);
-
-    source.addEventListener('error', function(e) {
-      console.log("Error:", e);
-    }, false);
-  }
-
-  writeOutput(data) {
+  handleChannelOutput(payload) {
     var output = this.state.output;
-    output += data + '\n';
+
+    if (payload.type == "result") {
+      switch(payload.status) {
+        case 0:
+          output += "\nProgram exited successfully.";
+          break;
+        default:
+          output += "\nProgram exited with errors.";
+          break;
+      }
+    } else {
+      output += payload.data;
+    }
+
     this.setState({output: output});
   }
 
