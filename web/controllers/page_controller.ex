@@ -9,7 +9,7 @@ defmodule ExPlayground.PageController do
   def index(conn, _params) do
     snippet = %ExPlayground.Snippet{
       id: "",
-      content: "IO.puts(\"hello, world\")"
+      content: "defmodule Hello do\n  def world do\n    IO.puts(\"hello, world\")\n  end\nend\n\nHello.world"
     }
     render conn, "index.html", snippet: snippet
   end
