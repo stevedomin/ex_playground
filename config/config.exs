@@ -8,10 +8,9 @@ use Mix.Config
 # Configures the endpoint
 config :ex_playground, ExPlayground.Endpoint,
   url: [host: "localhost"],
-  root: Path.expand("..", __DIR__),
+  root: Path.dirname(__DIR__),
   secret_key_base: "cAlMV+7yob3AUAxVzk4bHfT30QPggDJbFjdR4mJTWAjv2zCzCrkGFelMBJzizpQO",
-  debug_errors: false,
-  cache_static_manifest: "priv/static/manifest.json",
+  render_errors: [accepts: ~w(html json)],
   pubsub: [name: ExPlayground.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

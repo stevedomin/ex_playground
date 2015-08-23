@@ -25,8 +25,24 @@ exports.config = {
   },
 
   paths: {
-    watched: ["web/static", "test/static"],
+    watched: ["deps/phoenix/web/static",
+              "deps/phoenix_html/web/static",
+              "web/static", "test/static"],
     public: "priv/static"
-  }
+  },
 
+  // Configure your plugins
+  plugins: {
+    babel: {
+      // Do not use ES6 compiler in vendor code
+      ignore: [/web\/static\/vendor/],
+      compact: false
+    }
+  },
+
+  modules: {
+    autoRequire: {
+      'js/app.js': ['web/static/js/app']
+    }
+  },
 };

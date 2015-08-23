@@ -3,12 +3,12 @@
   },
   "dependencies": {
     "bower": "^1.4.1",
-    "brunch": "^1.8.3",
+    "brunch": "^1.8.5",
     "babel-brunch": "^5.1.2",
     "clean-css-brunch": ">= 1.0 < 1.8",
     "css-brunch": ">= 1.0 < 1.8",
     "javascript-brunch": ">= 1.0 < 1.8",
-    "sass-brunch": "git://github.com/brunch/sass-brunch.git#master",
+    "sass-brunch": "^1.8.10",
     "uglify-js-brunch": ">= 1.0 < 1.8",
     "react-brunch": "~> 1.0.9"
   }
