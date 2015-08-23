@@ -124,6 +124,8 @@ class App extends React.Component {
           output += "\nProgram exited with errors.";
           break;
       }
+    } else if (payload.type == "timeout") {
+      output += "\nProgram timed out. Execution time is limited to " + payload.timeout + "ms."
     } else {
       output += payload.data;
     }
