@@ -1,4 +1,4 @@
-import React from 'bower_components/react/react-with-addons'
+import React from 'react'
 
 export default class About extends React.Component {
   render() {

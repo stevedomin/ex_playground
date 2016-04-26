@@ -1,17 +1,21 @@
-import React from 'bower_components/react/react-with-addons'
-import CodeMirrorEditor from './codemirror-editor'
+import React from 'react'
+import CodeMirror from 'react-codemirror'
 
 export default class Console extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    return (
-      <CodeMirrorEditor
-        className={this.props.className}
-        lineNumbers={false}
-        mode="plain"
-        readOnly={true}
-        value={this.props.output}
-      />
-    );
+    var options = {
+      lineNumbers: false,
+      mode: "plain",
+      readOnly: true
+    };
+    return <CodeMirror className={this.props.className}
+                       onChange={this.updateCode}
+                       options={options}
+                       value={this.props.output} />
   }
 }
 

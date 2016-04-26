@@ -1,4 +1,5 @@
-import React from 'bower_components/react/react-with-addons'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 export default class Sharer extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ export default class Sharer extends React.Component {
   }
 
   selectContent() {
-    React.findDOMNode(this.refs.shareInput).select();
+    ReactDOM.findDOMNode(this.refs.shareInput).select();
   }
 };
 

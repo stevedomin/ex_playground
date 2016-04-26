@@ -30,14 +30,14 @@ defmodule ExPlayground.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 0.17"},
-      {:phoenix_ecto, "~> 1.1"},
+      {:phoenix, "~> 1.1"},
+      {:phoenix_ecto, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_html, "~> 2.1"},
-      {:postgrex, "~> 0.9"},
+      {:phoenix_html, "~> 2.5"},
+      {:postgrex, "~> 0.10"},
       {:cowboy, "~> 1.0"},
       {:porcelain, "~> 2.0"},
-      {:exrm, "~> 0.19"}
+      {:exrm, "~> 1.0"}
     ]
   end
 end

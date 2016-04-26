@@ -15,7 +15,7 @@ config :ex_playground, ExPlayground.Endpoint,
            adapter: Phoenix.PubSub.PG2]
 
 config :ex_playground, :docker,
-  bin: "/usr/bin/docker",
+  bin: "/usr/local/bin/docker",
   image: "stevedomin/ex_playground"
 
 config :ex_playground, :code_runner,

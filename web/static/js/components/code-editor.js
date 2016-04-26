@@ -1,17 +1,27 @@
-import React from 'bower_components/react/react-with-addons'
-import CodeMirrorEditor from './codemirror-editor'
+import React from 'react'
+import CodeMirror from 'react-codemirror'
+
+import '../codemirror/elixir-mode'
 
 export default class CodeEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      code: props.code,
+      extraKeys: props.extraKeys
+    };
+  }
+
   render() {
-    return (
-      <CodeMirrorEditor
-        className={this.props.className}
-        lineNumbers
-        mode='elixir'
-        extraKeys={this.props.extraKeys}
-        value={this.props.code}
-        onChange={this.props.onChange} />
-    );
+    var options = {
+      lineNumbers: true,
+      mode: 'elixir',
+      extraKeys: this.props.extraKeys
+    };
+    return <CodeMirror className={this.props.className}
+                       value={this.state.code}
+                       onChange={this.props.onChange}
+                       options={options} />
   }
 }
 

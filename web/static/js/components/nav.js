@@ -1,4 +1,4 @@
-import React from 'bower_components/react/react-with-addons'
+import React from 'react'
 
 import Sharer from './sharer'
 

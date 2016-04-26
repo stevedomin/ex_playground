@@ -18,7 +18,10 @@ defmodule ExPlayground.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
+
+      import Ecto
+      import Ecto.Changeset
     end
   end
 
@@ -27,7 +30,7 @@ defmodule ExPlayground.Web do
       use Phoenix.Controller
 
       alias ExPlayground.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 2]
 
       import ExPlayground.Router.Helpers
@@ -59,7 +62,7 @@ defmodule ExPlayground.Web do
       use Phoenix.Channel
 
       alias ExPlayground.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 2]
     end
   end

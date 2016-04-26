@@ -1,6 +1,9 @@
-import React from 'bower_components/react/react-with-addons'
-import $ from 'bower_components/jquery/dist/jquery'
-import {Socket} from "deps/phoenix/web/static/js/phoenix"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import $ from 'jquery'
+
+import 'phoenix_html'
+import {Socket} from 'phoenix'
 
 import About from './components/about'
 import CodeEditor from './components/code-editor'
@@ -10,6 +13,7 @@ import Nav from './components/nav'
 var SUPPORTS_HISTORY = window.history &&
   window.history.replaceState &&
   window.history.pushState;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -85,7 +89,7 @@ class App extends React.Component {
 
   handleCodeEditorChange(e) {
     this.setState({
-      code: e.target.value,
+      code: e,
       shareURL: "",
       embedCode: "",
       showSharer: false,
@@ -202,4 +206,4 @@ class App extends React.Component {
   }
 };
 
-React.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));

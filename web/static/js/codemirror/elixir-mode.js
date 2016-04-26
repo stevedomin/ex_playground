@@ -1,4 +1,4 @@
-import CodeMirror from 'bower_components/codemirror/lib/codemirror'
+import CodeMirror from 'codemirror'
 
 CodeMirror.defineMode("elixir", function(config) {
     function wordObj(words) {
@@ -50,6 +50,7 @@ CodeMirror.defineMode("elixir", function(config) {
         "function",
         "receive",
         "end",
+        "with"
     ]);
         var atomWords = wordObj([
         "true",
@@ -73,6 +74,7 @@ CodeMirror.defineMode("elixir", function(config) {
         "for",
         "then",
         "->",
+        "with"
     ]);
         var defineWords = wordObj([
         "def",
