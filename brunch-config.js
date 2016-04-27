@@ -51,6 +51,10 @@ exports.config = {
     styles: {
       codemirror: ['lib/codemirror.css'],
       bootstrap: ['dist/css/bootstrap.css']
+    },
+    globals: {
+      jQuery: 'jquery',
+      Tether: 'tether'
     }
   }
 };

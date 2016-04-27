@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import $ from 'jquery'
+import 'bootstrap'
 
 import 'phoenix_html'
 import {Socket} from 'phoenix'
@@ -44,14 +45,9 @@ class App extends React.Component {
   }
 
   render() {
-    var codeEditorClasses = "code-editor-pane";
-    if (this.state.showAbout) {
-      codeEditorClasses += " col-xs-6";
-    }
     return (
       <div className="app">
-        <Nav onRun={this.handleRunClick.bind(this)}
-          onShare={this.handleShareClick.bind(this)}
+        <Nav onShare={this.handleShareClick.bind(this)}
           onEmbed={this.handleEmbedClick.bind(this)}
           onAbout={this.handleAboutClick.bind(this)}
           shareURL={this.state.shareURL}
@@ -59,16 +55,15 @@ class App extends React.Component {
           showSharer={this.state.showSharer}
           showEmbedCode={this.state.showEmbedCode} />
         <div className="container-fluid workspace">
-          <div className="row workspace__top-row">
-            <CodeEditor className={codeEditorClasses}
-              code={this.state.code}
-              extraKeys={this.state.extraKeys}
-              onChange={this.handleCodeEditorChange.bind(this)} />
-            { this.state.showAbout ?
-              <About className="col-xs-6"
+          { this.state.showAbout ?
+              <About className="about-pane"
                 onClose={this.handleAboutCloseClick.bind(this)} />
               : null }
-          </div>
+          <CodeEditor className="row code-editor-pane"
+            code={this.state.code}
+            extraKeys={this.state.extraKeys}
+            onChange={this.handleCodeEditorChange.bind(this)}
+            onRun={this.handleRunClick.bind(this)}/>
           <Console className="row console-pane"
             output={this.state.output} />
         </div>
@@ -207,3 +202,5 @@ class App extends React.Component {
 };
 
 ReactDOM.render(<App/>, document.getElementById('app'));
+
+

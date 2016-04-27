@@ -13,13 +13,13 @@ export default class Nav extends React.Component {
 
     if (!IN_IFRAME) {
       shareButton = (
-        <li>
-          <button onClick={this.props.onShare} className="btn btn-default navbar-btn">Share</button>
+        <li className="nav-item">
+          <button onClick={this.props.onShare} className="btn btn-secondary navbar-btn">Share</button>
         </li>
       );
       embedButton = (
-        <li>
-          <button onClick={this.props.onEmbed} className="btn btn-default navbar-btn">Embed</button>
+        <li className="nav-item">
+          <button onClick={this.props.onEmbed} className="btn btn-secondary navbar-btn">Embed</button>
         </li>
       );
 
@@ -32,30 +32,28 @@ export default class Nav extends React.Component {
       }
 
       about = (
-        <ul className="nav navbar-nav navbar-right">
-          <li>
-            <button onClick={this.props.onAbout} className="btn btn-default navbar-btn">About</button>
-          </li>
-        </ul>
+        <li className="nav-item">
+          <button onClick={this.props.onAbout} className="btn btn-secondary navbar-btn">About</button>
+        </li>
       );
     }
 
     return (
-      <nav className="navbar navbar-default navbar-fixed-top">
-        <div className="container-fluid">
-          <div className="navbar-header">
+      <nav className="navbar navbar-light bg-faded navbar-fixed-top">
+        <button className="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header">
+          &#9776;
+        </button>
+        <div className="collapse navbar-toggleable-xs" id="navbar-header">
+          <div className="nav-header">
             <img className="navbar__elixir-drop" src="/images/elixir-drop.png"/>
-            <a className="navbar-brand" href="/">Playground</a>
+            <span className="navbar-brand">Playground</span>
           </div>
           <ul className="nav navbar-nav">
-            <li>
-              <button onClick={this.props.onRun} className="btn btn-default navbar-btn">Run</button>
-            </li>
+            { about }
             { shareButton }
             { embedButton }
           </ul>
           { sharer }
-          { about }
         </div>
       </nav>
     );
@@ -63,7 +61,6 @@ export default class Nav extends React.Component {
 };
 
 Nav.propTypes = {
-  onRun: React.PropTypes.func,
   onShare: React.PropTypes.func,
   onEmbed: React.PropTypes.func,
   shareURL: React.PropTypes.string,

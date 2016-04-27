@@ -5,7 +5,8 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
-    "bootstrap": "~3.3.6",
+    "bootstrap": "~4.0.0-alpha.2",
+    "tether": "^1.1.1",
     "codemirror": "~5.14.2",
     "jquery": "~2.2.3",
     "phoenix": "file:deps/phoenix",

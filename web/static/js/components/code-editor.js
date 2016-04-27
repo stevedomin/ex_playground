@@ -18,17 +18,25 @@ export default class CodeEditor extends React.Component {
       mode: 'elixir',
       extraKeys: this.props.extraKeys
     };
-    return <CodeMirror className={this.props.className}
-                       value={this.state.code}
-                       onChange={this.props.onChange}
-                       options={options} />
+    return (
+      <div className={this.props.className}>
+        <CodeMirror className="code-editor-pane__codemirror"
+                    value={this.state.code}
+                    onChange={this.props.onChange}
+                    options={options} />
+        <button className="btn btn-primary run-button" onClick={this.props.onRun}>
+          Run
+        </button>
+      </div>
+    );
   }
 }
 
 CodeEditor.propTypes = {
   className: React.PropTypes.string,
+  onRun: React.PropTypes.func,
   code: React.PropTypes.string,
   extraKeys: React.PropTypes.object,
-  onChange: React.PropTypes.func,
+  onChange: React.PropTypes.func
 };
 

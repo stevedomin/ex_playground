@@ -2,9 +2,8 @@ import React from 'react'
 
 export default class About extends React.Component {
   render() {
-    var classes = this.props.className + " about-pane";
     return (
-      <div className={classes}>
+      <div className={this.props.className}>
         <div>
           <h4>About the Elixir Playground</h4>
           <button type="button" className="close about-pane__close"

@@ -3,9 +3,6 @@ html {
 }
 
 body {
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;         /* Opera/IE 8+ */
   height: 100%;
 }
 
@@ -23,10 +20,14 @@ body {
   padding-right: 4px;
 }
 
+.navbar-nav .nav-item + .nav-item {
+  margin-left: 0.1rem;
+}
+
 .navbar__elixir-drop {
   height: 30px;
   float: left;
-  margin-top: 9px;
+  margin-top: 4px;
   margin-right: 5px;
 }
 
@@ -40,21 +41,32 @@ body {
   min-width:100%;
   width:100%;
   position: absolute;
-}
-
-.workspace__top-row {
   padding-top: 50px;
-  height: 70%;
 }
 
 .code-editor-pane {
+  height: 70%;
+  position: relative;
+}
+
+.code-editor-pane__codemirror {
   height: 100%;
   padding-left: 0;
   padding-right: 0;
 }
 
-.code-editor-pane > .CodeMirror {
+.code-editor-pane__codemirror > .CodeMirror {
   background-color: #FFF8ED;
+}
+
+.run-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .console-pane {
@@ -67,8 +79,15 @@ body {
 }
 
 .about-pane {
-  height: 100%;
+  background: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
   overflow: auto;
+  padding: 3rem;
 }
 
 .about-pane__close {

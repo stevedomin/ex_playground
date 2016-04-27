@@ -27,13 +27,11 @@ export default class Sharer extends React.Component {
 
   render() {
     return (
-      <form className="navbar-form navbar-left navbar__sharer">
-        <div className="form-group">
-          <input type="text" ref="shareInput"
-            className="form-control navbar__sharer__input"
-            value={this.state.content}
-            readOnly autoFocus />
-        </div>
+      <form className="form-inline navbar__sharer">
+        <input type="text" ref="shareInput"
+          className="form-control navbar__sharer__input"
+          value={this.state.content}
+          readOnly autoFocus />
       </form>
     );
   }
