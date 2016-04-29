@@ -15,6 +15,8 @@ var SUPPORTS_HISTORY = window.history &&
   window.history.replaceState &&
   window.history.pushState;
 
+var IN_IFRAME = window.self !== window.top;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,16 +47,23 @@ class App extends React.Component {
   }
 
   render() {
+    var mainContainerClassName = "container-fuild workspace"
+    if (IN_IFRAME) {
+      mainContainerClassName += " without-navbar"
+    }
+
     return (
       <div className="app">
-        <Nav onShare={this.handleShareClick.bind(this)}
-          onEmbed={this.handleEmbedClick.bind(this)}
-          onAbout={this.handleAboutClick.bind(this)}
-          shareURL={this.state.shareURL}
-          embedCode={this.state.embedCode}
-          showSharer={this.state.showSharer}
-          showEmbedCode={this.state.showEmbedCode} />
-        <div className="container-fluid workspace">
+        { !IN_IFRAME ?
+          <Nav onShare={this.handleShareClick.bind(this)}
+            onEmbed={this.handleEmbedClick.bind(this)}
+            onAbout={this.handleAboutClick.bind(this)}
+            shareURL={this.state.shareURL}
+            embedCode={this.state.embedCode}
+            showSharer={this.state.showSharer}
+            showEmbedCode={this.state.showEmbedCode} />
+          : null }
+        <div className={mainContainerClassName}>
           { this.state.showAbout ?
               <About className="about-pane"
                 onClose={this.handleAboutCloseClick.bind(this)} />
