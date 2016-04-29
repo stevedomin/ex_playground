@@ -3,7 +3,10 @@ defmodule ExPlayground.PageController do
 
   def index(conn, %{"id" => id}) do
     snippet = ExPlayground.Repo.get(ExPlayground.Snippet, id)
-    render conn, "index.html", snippet: snippet
+
+    conn
+    |> delete_resp_header("x-frame-options")
+    |> render("index.html", snippet: snippet)
   end
 
   def index(conn, _params) do
@@ -11,6 +14,9 @@ defmodule ExPlayground.PageController do
       id: "",
       content: "defmodule Hello do\n  def world do\n    IO.puts(\"hello, world\")\n  end\nend\n\nHello.world"
     }
-    render conn, "index.html", snippet: snippet
+
+    conn
+    |> delete_resp_header("x-frame-options")
+    |> render("index.html", snippet: snippet)
   end
 end
