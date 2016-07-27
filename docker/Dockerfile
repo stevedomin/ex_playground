@@ -1,4 +1,4 @@
-FROM stevedomin/elixir:1.2.0
+FROM stevedomin/elixir:1.3.1
 MAINTAINER Steve Domin <steve@stevedomin.com>
 
 RUN useradd -ms /bin/bash elixir
